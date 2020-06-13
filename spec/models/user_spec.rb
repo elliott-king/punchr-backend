@@ -114,4 +114,52 @@ RSpec.describe User, type: :model do
       expect(shifts.size).to eq(3)
     end
   end
+
+  context 'calc wages over date range' do
+    before(:each) do
+      start_time = DateTime.new(2020,5,29,9,0,15)
+      end_time = DateTime.new(2020,5,29,17,30,15)
+      @s1 = Shift.create!(start: start_time, end: end_time, user: @user)
+
+      start_time = DateTime.new(2020,5,30,7,0,15)
+      end_time = DateTime.new(2020,5,30,15,0,15)
+      @s2 = Shift.create!(start: start_time, end: end_time, user: @user)
+
+      start_time = DateTime.new(2020,5,31,7,0,15)
+      end_time = DateTime.new(2020,5,31,16,0,15)
+      @s3 = Shift.create!(start: start_time, end: end_time, user: @user)
+    end
+
+    it 'returns zero if time is too recent' do
+      dt = DateTime.new(2020,6,5,12,20,0)
+      expect(@user.wages_over_dates(dt)).to eq(0)
+    end
+    it 'returns wages for for simple input' do
+      dt = DateTime.new(2020,5,31,1,0,0)
+      expect(@user.wages_over_dates(dt)).to eq(9 * 10.00)
+    end
+    it 'returns partial for dt that starts in middle of shift' do
+      dt = DateTime.new(2020,5,31,10,0,15)
+      expect(@user.wages_over_dates(dt)).to eq(6 * 10.00)
+    end
+    it 'can calculate wages in last 30 days' do
+      expect(@user.wages_last_30_days).to eq(25.5 * 10.0)
+    end
+    it 'can calculate wages since beginning of month' do
+      start_time = DateTime.new(2020,6,10,7,0,15)
+      end_time = DateTime.new(2020,6,10,16,0,15)
+      Shift.create!(start: start_time, end: end_time, user: @user)
+      expect(@user.wages_since_month_start).to eq(9 * 10)
+    end
+    it 'handles date ranges' do
+      dt_start = DateTime.new(2020,5,30,1,0,0)
+      dt_end = DateTime.new(2020,5,31,23,0,0,)
+      expect(@user.wages_over_dates(dt_start, dt_end)).to eq(17 * 10)
+    end
+    it 'handles date ranges with shifts that go over range' do 
+      dt_start = DateTime.new(2020,5,30,10,0,15)
+      dt_end = DateTime.new(2020,5,31,10,30,15)
+      expect(@user.wages_over_dates(dt_start, dt_end)).to eq(8.5 * 10)
+    end
+  end
 end
