@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 2020_06_11_224205) do
     t.string "password_digest"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.float "hourly_wage"
   end
 
 end
