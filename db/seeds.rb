@@ -19,3 +19,6 @@ Shift.create!(start: start_time, end: end_time, user: elliott)
 
 start_time = DateTime.new(2020,5,31,7,0,15)
 Shift.create!(start: start_time, user: elliott)
+
+start_time = DateTime.new(2020,5,30,8,0,0)
+Shift.create!(start: start_time, user: test)

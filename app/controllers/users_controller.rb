@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   def shifts
     # FIXME: should take in optional start/end params
     user = User.find(params[:id])
-    render json: {shifts: user.shifts}
+    render json: user.shifts, :include => {:user => {:only => [:first_name, :last_name]}}
   end
 
   def punch
@@ -19,7 +19,7 @@ class UsersController < ApplicationController
 
   def current
     user = User.find(params[:id])
-    render json: user.current_shift
+    render json: user.current_shift, :include => {:user => {:only => [:first_name, :last_name]}}
   end
 
   def wages_last_30
