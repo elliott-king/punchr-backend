@@ -1,10 +1,10 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  resources :shifts, only: [:index] do
+  resources :shifts, only: [:index, :create, :update, :delete] do
     get 'current', on: :collection
   end
 
-  resources :users, only: [:index] do
+  resources :users, only: [:index, :create, :update, :delete] do
     member do
       get 'shifts'
       post 'shifts', to: 'users#punch'
