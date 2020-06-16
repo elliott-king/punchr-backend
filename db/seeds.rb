@@ -5,6 +5,7 @@ User.destroy_all
 
 elliott = User.create!(first_name: "Elliott", last_name: "King", email: "something1@somewhere.com", phone: "8675309", pin: 7777, password: "elliott", hourly_wage: 10.00)
 test = User.create!(first_name: "test", last_name: "account", email: "something2@somewhere.com", phone: "8675309", pin: 9999, password: "test", hourly_wage: 20.20)
+test2 = User.create!(first_name: "test2", last_name: "account2", email: "something3@somewhere.com", phone: "8675309", pin: 9999, password: "test", hourly_wage: 20.20)
 
 # yyyy, m, d, h, min, sec
 # 8hr 3min 11sec
@@ -22,3 +23,7 @@ Shift.create!(start: start_time, user: elliott)
 
 start_time = DateTime.new(2020,5,30,8,0,0)
 Shift.create!(start: start_time, user: test)
+
+start_time = DateTime.new(2020,5,30,12,0,0)
+end_time = DateTime.new(2020,5,30,20,3,26)
+Shift.create!(start: start_time, end: end_time, user: test2)
