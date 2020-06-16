@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 
   # todo: need to authorize most calls
   def index
-    render json: User.all
+    render json: User.all.as_json(except: [:password_digest])
   end
 
   def shifts
@@ -41,7 +41,8 @@ class UsersController < ApplicationController
       pin: params[:pin],
       password: params[:password]
     })
-    render json: user 
+
+    render user.as_json(except: [:password_digest])
   end
 
 end
