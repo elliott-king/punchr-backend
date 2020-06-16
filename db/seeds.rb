@@ -3,7 +3,7 @@ require 'date'
 Shift.destroy_all
 User.destroy_all
 
-elliott = User.create!(first_name: "Elliott", last_name: "King", email: "something1@somewhere.com", phone: "8675309", pin: 7777, password: "elliott", hourly_wage: 10.00)
+elliott = User.create!(first_name: "Elliott", last_name: "King", email: "something1@somewhere.com", phone: "8675309", pin: 7777, password: "elliott", hourly_wage: 10.00, is_manager: true)
 test = User.create!(first_name: "test", last_name: "account", email: "something2@somewhere.com", phone: "8675309", pin: 9999, password: "test", hourly_wage: 20.20)
 test2 = User.create!(first_name: "test2", last_name: "account2", email: "something3@somewhere.com", phone: "8675309", pin: 9999, password: "test", hourly_wage: 20.20)
 
