@@ -5,9 +5,13 @@ class User < ApplicationRecord
   has_secure_password
   has_many :shifts, -> {order 'start asc'}
 
+  def full_name
+    self.first_name + ' ' + self.last_name
+  end
+
   def current_shift
     last = self.shifts.last
-    if !last || last.end 
+    if !last || last.end
       return false
     end
     return last
@@ -53,10 +57,10 @@ class User < ApplicationRecord
       if shift.start > dt_to
         next
       end
-      if shift.end < dt_from 
+      if shift.end < dt_from
         return hours * self.hourly_wage
       end
-      if shift.end > dt_to 
+      if shift.end > dt_to
         if shift.start < dt_from
           puts('shift that starts before dt_from and after dt_to')
           hours = (dt_to - dt_from) / 1.hours

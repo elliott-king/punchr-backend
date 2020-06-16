@@ -11,7 +11,7 @@ class ShiftsController < ApplicationController
   def create
     shift = Shift.create({
       start: Time.now,
-      end: nil,
+      end: params[:end],
       user_id: params[:user_id]
     })
     render json: shift
@@ -20,7 +20,8 @@ class ShiftsController < ApplicationController
   def update
     shift = Shift.find(params[:id])
     shift.update({
-      end: params[:end]
+      start: params[:start],
+      end: params[:end],
     })
     render json: shift
   end
