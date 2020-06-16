@@ -4,6 +4,8 @@ Rails.application.routes.draw do
     get 'current', on: :collection
   end
 
+  resources :sessions, only: [:create]
+
   resources :users, only: [:index, :create, :update, :delete] do
     member do
       get 'shifts'

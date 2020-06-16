@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  # before_action :authorize_request, only: [:index, :get, whatever...]
 
   # todo: need to authorize most calls
   def index
@@ -33,6 +34,7 @@ class UsersController < ApplicationController
   end
 
   def create
+    # TODO: this doesn't check for email duplicates
     user = User.create({
       first_name: params[:first_name],
       last_name: params[:last_name],
