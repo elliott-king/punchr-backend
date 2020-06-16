@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   resources :sessions, only: [:create]
 
-  resources :users, only: [:index, :create, :update, :delete] do
+  resources :users, only: [:index, :create, :update, :destroy] do
     member do
       get 'shifts'
       post 'shifts', to: 'users#punch'

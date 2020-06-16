@@ -47,4 +47,11 @@ class UsersController < ApplicationController
     render user.as_json(except: [:password_digest])
   end
 
+  def destroy
+    user = User.find(params[:id])
+    user.shifts.each {|s| s.destroy!}
+    user.destroy!
+    render json: {deleted: true}
+  end
+
 end
