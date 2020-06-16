@@ -1,7 +1,16 @@
+require 'date'
+
 class ShiftsController < ApplicationController
   def index
-    # FIXME: should take optional start, end date params
-    render :json => Shift.sorted, :include => {:user => {:only => [:first_name, :last_name, :is_manager]}}
+    start_date = DateTime.new(2000,1,30,7,0,15)
+    end_date = DateTime.now
+    if params[:start]
+      start_date = DateTime.parse(params[:start])
+    end
+    if params[:end]
+      end_date = DateTime.parse(params[:end])
+    end
+    render :json => Shift.over_dates(start_date, end_date), :include => {:user => {:only => [:first_name, :last_name, :is_manager]}}
   end
 
   def current
