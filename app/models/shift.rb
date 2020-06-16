@@ -27,7 +27,7 @@ class Shift < ApplicationRecord
           shifts << shift
         end
       else # shift is ongoing
-        if shift.start < ending && shift.start > start
+        if shift.start < ending
           shifts << shift
         end
       end
