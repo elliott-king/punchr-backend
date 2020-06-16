@@ -26,6 +26,10 @@ class Shift < ApplicationRecord
         if start_in_range || end_in_range
           shifts << shift
         end
+      else # shift is ongoing
+        if shift.start < ending && shift.start > start
+          shifts << shift
+        end
       end
     end
     return shifts

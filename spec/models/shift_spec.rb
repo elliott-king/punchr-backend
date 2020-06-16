@@ -40,10 +40,10 @@ RSpec.describe Shift, type: :model do
       e = DateTime.new(2020,5,30,16,3,26)
       expect(Shift.over_dates(s, e).count).to eq(2)
     end
-    it 'does not return ongoing shifts' do
+    it 'returns ongoing shifts' do
       s = DateTime.new(2020,5,30,1,3,26)
       e = DateTime.new(2020,6,30,16,3,26)
-      expect(Shift.over_dates(s, e).count).to eq(1)
+      expect(Shift.over_dates(s, e).count).to eq(3)
     end
     it 'returns shifts that are partly outside bounds' do
       s = DateTime.new(2020,5,29,10,3,26)
