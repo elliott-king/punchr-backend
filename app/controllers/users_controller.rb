@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
   # todo: need to authorize most calls
   def index
-    render json: User.all.as_json(except: [:password_digest])
+    render json: User.all.order('id').as_json(except: [:password_digest])
   end
 
   def shifts
@@ -47,6 +47,12 @@ class UsersController < ApplicationController
     render user.as_json(except: [:password_digest])
   end
 
+  def update
+    user = User.find(params[:id])
+    user.update!(user_params)
+    render json: user.as_json(except: [:password_digest])
+  end
+
   def destroy
     user = User.find(params[:id])
     user.shifts.each {|s| s.destroy!}
@@ -54,4 +60,8 @@ class UsersController < ApplicationController
     render json: {deleted: true}
   end
 
+  private
+  def user_params
+    params.require(:user).permit(:first_name, :last_name, :email, :phone, :pin, :password, :hourly_wage, :is_manager)
+  end
 end
