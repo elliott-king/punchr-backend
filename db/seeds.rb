@@ -1,29 +1,34 @@
-require 'date'
-
 Shift.destroy_all
 User.destroy_all
 
-elliott = User.create!(first_name: "Elliott", last_name: "King", email: "something1@somewhere.com", phone: "8675309", pin: 7777, password: "elliott", hourly_wage: 10.00, is_manager: true)
-test = User.create!(first_name: "test", last_name: "account", email: "something2@somewhere.com", phone: "8675309", pin: 9999, password: "test", hourly_wage: 20.20)
-test2 = User.create!(first_name: "test2", last_name: "account2", email: "something3@somewhere.com", phone: "8675309", pin: 9999, password: "test", hourly_wage: 20.20)
 
-# yyyy, m, d, h, min, sec
-# 8hr 3min 11sec
-start_time = DateTime.new(2020,5,30,7,0,15)
-end_time = DateTime.new(2020,5,30,15,3,26)
-Shift.create!(start: start_time, end: end_time, user: elliott)
+10.times do
+  User.create!({
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name,
+    email: Faker::Internet.safe_email,
+    phone: Faker::PhoneNumber.cell_phone,
+    hourly_wage: Faker::Number.within(range: 12..30),
+    is_manager: false,
+    pin: Faker::Number.number(digits: 4),
+    password: 'password'
+    })
+end
 
-# 8hr 11 sec
-start_time = DateTime.new(2020,5,29,9,0,15)
-end_time = DateTime.new(2020,5,29,17,0,26)
-Shift.create!(start: start_time, end: end_time, user: elliott)
+200.times do
+  start_time = Faker::Time.backward(days:200)
+  end_time = Faker::Time.between(from: start_time, to: start_time + 12.hours)
+  Shift.create!({
+    user_id: User.all.sample.id,
+    start: start_time,
+    end: end_time
+    })
+end
 
-start_time = DateTime.new(2020,5,31,7,0,15)
-Shift.create!(start: start_time, user: elliott)
-
-start_time = DateTime.new(2020,5,30,8,0,0)
-Shift.create!(start: start_time, user: test)
-
-start_time = DateTime.new(2020,5,30,12,0,0)
-end_time = DateTime.new(2020,5,30,20,3,26)
-Shift.create!(start: start_time, end: end_time, user: test2)
+5.times do
+  Shift.create({
+    user_id: User.all.sample.id,
+    start: Faker::Time.between(from: DateTime.now - 8.hours, to: DateTime.now),
+    end: nil
+    })
+  end
