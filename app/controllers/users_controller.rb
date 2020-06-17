@@ -43,8 +43,8 @@ class UsersController < ApplicationController
       pin: params[:pin],
       password: params[:password]
     })
-
-    render user.as_json(except: [:password_digest])
+    render json: user, except: :password_digest
+    #render user.as_json(except: [:password_digest])
   end
 
   def update
