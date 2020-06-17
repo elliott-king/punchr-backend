@@ -10,35 +10,35 @@ class ShiftsController < ApplicationController
     if params[:end]
       end_date = DateTime.parse(params[:end])
     end
-    render :json => Shift.over_dates(start_date, end_date), :include => {:user => {:only => [:first_name, :last_name, :is_manager]}}
+    render :json => Shift.over_dates(start_date, end_date), :include => {:user => {:only => [:first_name, :last_name, :is_manager, :pin]}}
   end
 
   def current
-    render :json => Shift.current, :include => {:user => {:only => [:first_name, :last_name, :is_manager]}}
+    render :json => Shift.current, :include => {:user => {:only => [:first_name, :last_name, :is_manager, :pin]}}
   end
 
   def create
     shift = Shift.create!({
-      start: Time.now,
-      end: params[:end],
+      start: params[:start] ? DateTime.parse(params[:start]) : Time.now,
+      end: params[:end] ? DateTime.parse(params[:end]) : nil,
       user_id: params[:user_id]
     })
-    render json: shift
+    render json: shift, :include => {:user =>  {:only => [:first_name, :last_name, :is_manager, :pin]}}
   end
 
   def update
     shift = Shift.find(params[:id])
     if (params[:start])
-      shift.update({
-        start: params[:start],
-        end: params[:end],
-        })
-    else
-      shift.update({
-        end: params[:end],
-        })
+      shift.update!({start: params[:start]})
     end
-    render json: shift
+    if params[:end]
+      if params[:end] == 'no end'
+        shift.update({end: nil})
+      else
+        shift.update({end: params[:end]})
+      end
+    end
+    render json: shift, :include => {:user => {:only => [:first_name, :last_name, :is_manager, :pin]}}
   end
 
 
