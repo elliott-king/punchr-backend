@@ -1,6 +1,16 @@
 Shift.destroy_all
 User.destroy_all
 
+User.create({
+  first_name: 'manager',
+  last_name: 'person',
+  email: 'manager@company.com',
+  phone: '8675309',
+  hourly_wage: 20.20,
+  is_manager: true,
+  pin: 9999,
+  password: 'admin',
+})
 
 10.times do
   User.create!({
