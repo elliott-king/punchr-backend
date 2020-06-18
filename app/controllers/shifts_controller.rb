@@ -20,7 +20,7 @@ class ShiftsController < ApplicationController
   def create
     shift = Shift.create!({
       start: params[:start] ? DateTime.parse(params[:start]) : Time.now,
-      end: params[:end] ? DateTime.parse(params[:end]) : nil,
+      end: (params[:end] && params[:end] != 'no end') ? DateTime.parse(params[:end]) : nil,
       user_id: params[:user_id]
     })
     render json: shift, :include => {:user =>  {:only => [:first_name, :last_name, :is_manager, :pin]}}
